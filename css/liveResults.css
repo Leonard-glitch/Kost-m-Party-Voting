@@ -5,37 +5,72 @@
 }
 
 html{
-    font-size: 18px;
+    font-size: 20px;
+}
+
+:root{
+    --boxShadowing: rgba(22, 153, 77, 0.39);
+    --colorNormal: black;
+    --colorTitle: #ff05c1;
+    --backgroundBody: #0432571e;
+    --backgroundContainer: #0307ff80;
+    --backgroundStimmen: rgba(255, 255, 255, 0.171);
+    --backgroundAllVotes: #0307ff3f;
+    --borderContainer: rgb(0, 255, 170);
+    --gradiantStart: #00f2fe;
+    --gradiantEnd: #09a5ff;
+}
+
+body{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--backgroundBody);
 }
 
 #title{
     text-align: center;
     margin: 20px 0;
-    color: #00ffcc; /* Neon-Farbe */
+    color: var(--colorTitle); 
+    width: 20%;
+    min-width: 300px;
+    border-radius: 10px;
+
+    box-shadow:
+    0 3px 8px var(--boxShadowing),
+    0 10px 30px var(--boxShadowing);
+
+    background: linear-gradient(90deg, var(--gradiantStart) 0%, var(--gradiantEnd) 100%);
 }
 
 #rankingsContainer{
   display: flex;
   flex-direction: column;
+
+  width: 98%;
+
   gap: 10px;
   padding: 20px;
   margin: 20px;
 
-  border: 3px solid rgb(0, 255, 170);
+  border: 3px solid var(--borderContainer);
   border-radius: 10px;
 
-  min-height: 10rem;
-  max-height: 17rem;
+  height: 17rem;
   overflow-y: auto;
-  background: #0308ff6e; /* Dunkel für Party */
-  color: rgb(0, 0, 0);
+  background: var(--backgroundContainer); 
+  color: var(--colorNormal);
+
+  box-shadow:
+    0 3px 8px var(--boxShadowing),
+    0 10px 30px var(--boxShadowing);
 }
 
 .bar-row {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
-    width: 100%; /* Nutzt die volle Breite des Bildschirms */
+    width: 100%; 
 }
 
 .bar-label {
@@ -45,23 +80,58 @@ html{
 }
 
 .bar-wrapper {
-    flex-grow: 1; /* Dieser Bereich nimmt den restlichen Platz ein */
+    flex-grow: 1; 
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1); /* Dezent grauer Hintergrund für den "leeren" Bereich */
+    background: var(--backgroundStimmen); 
     border-radius: 8px;
     overflow: hidden;
 }
 
 .bar-fill {
     height: 35px;
-    background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%); /* Hübscher Verlauf */
-    transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* "Bounce" Effekt beim Wachsen */
+    background: linear-gradient(90deg, var(--gradiantStart) 0%, var(--gradiantEnd) 100%); 
+    transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     min-width: 2px;
 }
 
 .bar-count {
     padding-left: 10px;
+    padding-right: 5px;
     font-size: 0.9rem;
     white-space: nowrap;
+}
+
+#all-Votes{
+    margin-top: 10px;
+    color: var(--colorNormal);
+    border-radius: 10px;
+    padding: 5px;
+
+    box-shadow:
+    0 3px 8px var(--boxShadowing),
+    0 10px 30px var(--boxShadowing);
+
+    background: var(--backgroundAllVotes);
+}
+
+/* Scrollbar styling */
+
+::-webkit-scrollbar{
+    width: 12px; 
+}
+
+::-webkit-scrollbar-track{
+    background: transparent; 
+}
+
+::-webkit-scrollbar-thumb{
+    background: rgba(255, 255, 255, 0.233);
+    border-radius: 999px; 
+    backdrop-filter: blur(10px); 
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background: rgba(140,82,255,0.5);
+    
 }
