@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/index.css">
+    <title>Kostüm-Voting-App</title>
+</head>
+<body>
+    <section>
+        <h1>Kostüm-Party 2026</h1>
+
+        <div class="voteDiv">
+            <h2>Abstimmung für das beste Kostüm</h2>
+            <p>Trage die Nummer ihres Lieblingskostüms unten ein!</p>
+
+            <input type="text" id="kostum-input" placeholder="Kostüm-Nummer">
+
+            <p id="vote-message"></p>
+
+            <button id="vote-button">Abstimmen</button>
+        </div>
+
+        <div class="adminDiv">
+            <h3>Admin Zugriff</h3>
+            <input type="password" id="admin-password" placeholder="Admin-Passwort">
+            <button id="admin-login-button">Einloggen</button>
+        </div>
+    </section>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    
+    const firebaseConfig = {
+    apiKey: "AIzaSyBH_ZoTcpJcYzf_elI3mpSmmAwqbAjnf_o",
+    authDomain: "kostparty-live-preview.firebaseapp.com",
+    projectId: "kostparty-live-preview",
+    storageBucket: "kostparty-live-preview.firebasestorage.app",
+    messagingSenderId: "133490670261",
+    appId: "1:133490670261:web:67f7823cd22871e0a8dcfc",
+    measurementId: "G-LZJ22H1TZQ"
+  };
+
+    
+    firebase.initializeApp(firebaseConfig);
+    
+    const db = firebase.firestore();
+    </script>
+
+    <script src="./js/index.js"></script>
+</body>
+</html>

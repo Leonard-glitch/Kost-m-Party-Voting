@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/liveResults.css">
+    <title>Live-Results</title>
+</head>
+<body>
+    <h1 id="title">Live-Results</h1>
+
+    <div id="rankingsContainer">
+    </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    // Hier deine kopierte Config einfügen:
+    const firebaseConfig = {
+    apiKey: "AIzaSyBH_ZoTcpJcYzf_elI3mpSmmAwqbAjnf_o",
+    authDomain: "kostparty-live-preview.firebaseapp.com",
+    projectId: "kostparty-live-preview",
+    storageBucket: "kostparty-live-preview.firebasestorage.app",
+    messagingSenderId: "133490670261",
+    appId: "1:133490670261:web:67f7823cd22871e0a8dcfc",
+    measurementId: "G-LZJ22H1TZQ"
+  };
+
+    
+    firebase.initializeApp(firebaseConfig);
+    
+    const db = firebase.firestore();
+    </script>
+
+    <script src="../js/liveResults.js"></script>
+</body>
+</html>   
