@@ -1,27 +1,38 @@
 db.collection('kostueme').onSnapshot(snapshot => {
-  const container = document.getElementById('rankingsContainer');
-  let data = [];
-  
-  snapshot.forEach(doc => {
-    data.push({ id: doc.id, ...doc.data() });
-  });
+    const container = document.getElementById('rankingsContainer');
+    const totalDisplay = document.getElementById('total-votes');
+    let data = [];
+    let totalVotes = 0; // Hier starten wir bei 0
+    
+    snapshot.forEach(doc => {
+        const item = doc.data();
+        data.push({ id: doc.id, ...item });
+        
+        // Jede Stimme zur Gesamtsumme addieren
+        totalVotes += item.votes || 0;
+    });
 
-  // Sortieren: Meiste Stimmen nach oben
-  data.sort((a, b) => b.votes - a.votes);
+    // Anzeige der Gesamtstimmen aktualisieren
+    totalDisplay.textContent = totalVotes;
 
-  // Anzeige leeren oder updaten
-  container.innerHTML = '';
-  
-  data.forEach((item, index) => {
-    // Wir berechnen die Breite (einfachheitshalber Stimmen * 10 Pixel)
-    const barWidth = item.votes * 10; 
+    data.sort((a, b) => b.votes - a.votes);
 
-    container.innerHTML += `
-      <div class="bar-row">
-        <div class="bar-label">Number#${item.id}</div>
-        <div class="bar-fill" style="width: ${barWidth}px"></div>
-        <div class="bar-count">${item.votes}</div>
-      </div>
-    `;
-  });
+    // 1. Die höchste Stimmenzahl finden
+    const maxVotes = data.length > 0 ? data[0].votes : 0;
+
+    container.innerHTML = '';
+    
+    data.forEach((item) => {
+        // 2. Prozentwert berechnen (Vermeidung von Division durch 0)
+        const barPercentage = maxVotes > 0 ? (item.votes / maxVotes) * 100 : 0;
+
+        container.innerHTML += `
+            <div class="bar-row">
+                <div class="bar-label">#${item.id}</div>
+                <div class="bar-wrapper"> <div class="bar-fill" style="width: ${barPercentage}%"></div>
+                    <div class="bar-count">${item.votes} Stimmen</div>
+                </div>
+            </div>
+        `;
+    });
 });
