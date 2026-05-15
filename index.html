@@ -7,24 +7,26 @@
     <title>Kostüm-Voting-App</title>
 </head>
 <body>
-    <section>
-        <h1>Kostüm-Party 2026</h1>
 
+        <h1 id="headerOne">Kostüm-Party 2026</h1>
+
+    <section id="sec1">
+
+        <p id="info-TextZero">Willkommen zum Kostüm-Party Voting! <br> Hier kannst du für dein Lieblingskostüm abstimmen.
+
+    
         <div class="voteDiv">
-            <h2>Abstimmung für das beste Kostüm</h2>
-            <p>Trage die Nummer ihres Lieblingskostüms unten ein!</p>
+            <h2>DEIN FAVORIT</h2>
+            <p id="info-TextOne">Gib die Nummer deines Favoriten ein</p>
 
             <input type="text" id="kostum-input" placeholder="Kostüm-Nummer">
 
-            <p id="vote-message"></p>
+            <p id="info-TextTwo">Gib die Nummer deines Favoriten ein. Gültige Nummern: <span id="valid-numbers"></span>. 
+                Nur gültige Nummern werden akzeptiert. Mehrfachabstimmungen sind nicht erlaubt.</p>
 
             <button id="vote-button">Abstimmen</button>
-        </div>
 
-        <div class="adminDiv">
-            <h3>Admin Zugriff</h3>
-            <input type="password" id="admin-password" placeholder="Admin-Passwort">
-            <button id="admin-login-button">Einloggen</button>
+            <p id="vote-message"></p>
         </div>
     </section>
 

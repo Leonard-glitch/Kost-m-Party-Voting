@@ -1,0 +1,24 @@
+<section id="sec2">
+
+        <div class="adminDiv">
+            <h3>Admin Zugriff</h3>
+            <input type="password" id="admin-password" placeholder="Admin-Passwort">
+            <button id="admin-login-button">Einloggen</button>
+        </div>
+    </section>
+
+
+    //Admin-Login
+
+const passwordInput=document.getElementById("admin-password");
+const adminButton=document.getElementById("admin-login-button");
+
+const password="admin123";
+
+adminButton.addEventListener("click", function(){
+    let enteredPassword=passwordInput.value;
+
+    if(enteredPassword===password){
+        window.location.href="html/liveResults.html";
+    }
+})

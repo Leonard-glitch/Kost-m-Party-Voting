@@ -1,9 +1,13 @@
 const voteButton=document.getElementById("vote-button");
 const messages=document.getElementById("vote-message");
 const kostuemNumber=document.getElementById("kostum-input");
+const validNumbersSpan=document.getElementById("valid-numbers");
 
-const minZahl=1;
+const minZahl=1; //Jeweilige Zahlen werden miteinbezogen
 const maxZahl=200;
+
+// Set the valid numbers in the span
+validNumbersSpan.textContent = `${minZahl}-${maxZahl}`;
 
 localStorage.clear();  //Zum Testen, jedes Mal LocalStorage löschen
 
@@ -15,8 +19,8 @@ voteButton.addEventListener("click", async function(){
 
     messages.style.display="none";
 
-    if(isNaN(number)){ messages.style.display="block"; messages.textContent="Bitte geben Sie eine gültige Zahl ein."; return; }
-    if(number===""){ messages.style.display="block"; messages.textContent="Bitte geben Sie eine Zahl ein."; return; }
+    if(isNaN(number)){ messages.style.display="block"; messages.innerHTML=`Bitte geben Sie eine gültige Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
+    if(number===""){ messages.style.display="block"; messages.innerHTML=`Bitte geben Sie eine Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
     if(number<minZahl || number>maxZahl){ messages.style.display="block"; messages.innerHTML=`Bitte geben Sie eine Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
 
     
@@ -38,21 +42,4 @@ voteButton.addEventListener("click", async function(){
 } catch (error) {
     console.error("Fehler beim Voten:", error);
 }
-})
-
-
-
-//Admin-Login
-
-const passwordInput=document.getElementById("admin-password");
-const adminButton=document.getElementById("admin-login-button");
-
-const password="admin123";
-
-adminButton.addEventListener("click", function(){
-    let enteredPassword=passwordInput.value;
-
-    if(enteredPassword===password){
-        window.location.href="html/liveResults.html";
-    }
 })
