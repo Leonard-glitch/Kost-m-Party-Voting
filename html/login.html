@@ -1,24 +1,22 @@
-<section id="sec2">
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../css/login.css">
+    <title>Admin Login</title>
+</head>
+<body>
+    <section id="sec2">
 
         <div class="adminDiv">
             <h3>Admin Zugriff</h3>
             <input type="password" id="admin-password" placeholder="Admin-Passwort">
             <button id="admin-login-button">Einloggen</button>
+            <p id="admin-login-message"></p>
         </div>
     </section>
 
-
-    //Admin-Login
-
-const passwordInput=document.getElementById("admin-password");
-const adminButton=document.getElementById("admin-login-button");
-
-const password="admin123";
-
-adminButton.addEventListener("click", function(){
-    let enteredPassword=passwordInput.value;
-
-    if(enteredPassword===password){
-        window.location.href="html/liveResults.html";
-    }
-})
+    <script src="../js/login.js"></script>
+</body>
+</html>

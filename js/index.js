@@ -13,15 +13,15 @@ localStorage.clear();  //Zum Testen, jedes Mal LocalStorage löschen
 
 voteButton.addEventListener("click", async function(){
 
-    if (localStorage.getItem("voted")){ messages.style.display="block"; messages.textContent="Sie haben bereits abgestimmt!"; return; }
+    if (localStorage.getItem("voted")){messages.textContent="Sie haben bereits abgestimmt!"; return; }
 
     let number=kostuemNumber.value;
 
-    messages.style.display="none";
+    messages.textContent = "";
 
-    if(isNaN(number)){ messages.style.display="block"; messages.innerHTML=`Bitte geben Sie eine gültige Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
-    if(number===""){ messages.style.display="block"; messages.innerHTML=`Bitte geben Sie eine Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
-    if(number<minZahl || number>maxZahl){ messages.style.display="block"; messages.innerHTML=`Bitte geben Sie eine Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
+    if(isNaN(number) || number.includes(".") || number.includes(",")){messages.innerHTML=`Bitte geben Sie eine gültige, ganze Zahl ein.`; return; }
+    if(number===""){messages.innerHTML=`Bitte geben Sie eine Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
+    if(number<minZahl || number>maxZahl){messages.innerHTML=`Bitte geben Sie eine Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
 
     
 
@@ -43,3 +43,16 @@ voteButton.addEventListener("click", async function(){
     console.error("Fehler beim Voten:", error);
 }
 })
+
+kostuemNumber.addEventListener("input", function() {
+    messages.textContent = "";
+});
+
+
+kostuemNumber.addEventListener("keydown", function(event){
+
+    if(event.key === "Enter"){
+        voteButton.click();
+    }
+
+});
