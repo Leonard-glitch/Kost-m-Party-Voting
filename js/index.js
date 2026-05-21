@@ -6,7 +6,6 @@ const validNumbersSpan=document.getElementById("valid-numbers");
 const minZahl=1; //Jeweilige Zahlen werden miteinbezogen
 const maxZahl=200;
 
-// Set the valid numbers in the span
 validNumbersSpan.textContent = `${minZahl}-${maxZahl}`;
 
 localStorage.clear();  //Zum Testen, jedes Mal LocalStorage löschen
@@ -15,22 +14,20 @@ voteButton.addEventListener("click", async function(){
 
     if (localStorage.getItem("voted")){messages.textContent="Sie haben bereits abgestimmt!"; return; }
 
-    let number=kostuemNumber.value;
+    let rawInput = kostuemNumber.value;
+    let number = parseInt(rawInput, 10); 
 
     messages.textContent = "";
 
-    if(isNaN(number) || number.includes(".") || number.includes(",")){messages.innerHTML=`Bitte geben Sie eine gültige, ganze Zahl ein.`; return; }
-    if(number===""){messages.innerHTML=`Bitte geben Sie eine Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
-    if(number<minZahl || number>maxZahl){messages.innerHTML=`Bitte geben Sie eine Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
-
-    
+    if(rawInput.trim() === "" || isNaN(number)){messages.innerHTML=`Bitte geben Sie eine gültige Zahl ein.`; return; }
+    if(rawInput.includes(".") || rawInput.includes(",")){messages.innerHTML=`Bitte geben Sie eine gültige, ganze Zahl ein.`; return; }
+    if(number < minZahl || number > maxZahl){messages.innerHTML=`Bitte geben Sie eine Zahl zwischen ${minZahl} und ${maxZahl} ein.`; return; }
 
     try {
     const docRef = db.collection('kostueme').doc(number.toString());
-    
-    // Wir nutzen .set() statt .update()
+
     await docRef.set({
-      votes: firebase.firestore.FieldValue.increment(1)
+       votes: firebase.firestore.FieldValue.increment(1)
     }, { merge: true }); // Das hier ist wichtig!
 
     localStorage.setItem("voted", "true");
