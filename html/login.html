@@ -11,11 +11,29 @@
 
         <div class="adminDiv">
             <h3>Admin Zugriff</h3>
-            <input type="password" id="admin-password" placeholder="Admin-Passwort">
-            <button id="admin-login-button">Einloggen</button>
+            <input type="password" id="admin-password" placeholder="Admin-Passwort" autocomplete="current-password">
+            <button id="admin-login-button" type="button">Einloggen</button>
             <p id="admin-login-message"></p>
         </div>
     </section>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script>
+    const firebaseConfig = {
+    apiKey: "AIzaSyBH_ZoTcpJcYzf_elI3mpSmmAwqbAjnf_o",
+    authDomain: "kostparty-live-preview.firebaseapp.com",
+    projectId: "kostparty-live-preview",
+    storageBucket: "kostparty-live-preview.firebasestorage.app",
+    messagingSenderId: "133490670261",
+    appId: "1:133490670261:web:67f7823cd22871e0a8dcfc",
+    measurementId: "G-LZJ22H1TZQ"
+  };
+
+    firebase.initializeApp(firebaseConfig);
+    </script>
 
     <script src="../js/login.js"></script>
 </body>

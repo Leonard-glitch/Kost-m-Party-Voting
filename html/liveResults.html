@@ -7,36 +7,38 @@
     <title>Live-Results</title>
 </head>
 <body>
-    <h1 id="title">Live-Results</h1>
+    <!-- X-Button oben rechts mit Tooltip-Attribut -->
+    <button id="logout-button" type="button" aria-label="Abmelden" data-tooltip="Abmelden">&#10005;</button>
 
-    <div id="rankingsContainer">
+    <div class="top-bar">
+        <h1 id="title">Live-Results</h1>
     </div>
 
+    <div id="rankingsContainer"></div>
+
     <div class="stats-container">
-    <h2 id="all-Votes">Gesamtstimmen: <span id="total-votes">0</span></h2>
-</div>
-    
+        <h2 id="all-Votes">Gesamtstimmen: <span id="total-votes">0</span></h2>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-    // Hier die kopierten Config einfügen:
     const firebaseConfig = {
-    apiKey: "AIzaSyBH_ZoTcpJcYzf_elI3mpSmmAwqbAjnf_o",
-    authDomain: "kostparty-live-preview.firebaseapp.com",
-    projectId: "kostparty-live-preview",
-    storageBucket: "kostparty-live-preview.firebasestorage.app",
-    messagingSenderId: "133490670261",
-    appId: "1:133490670261:web:67f7823cd22871e0a8dcfc",
-    measurementId: "G-LZJ22H1TZQ"
-  };
+      apiKey: "AIzaSyBH_ZoTcpJcYzf_elI3mpSmmAwqbAjnf_o",
+      authDomain: "kostparty-live-preview.firebaseapp.com",
+      projectId: "kostparty-live-preview",
+      storageBucket: "kostparty-live-preview.firebasestorage.app",
+      messagingSenderId: "133490670261",
+      appId: "1:133490670261:web:67f7823cd22871e0a8dcfc",
+      measurementId: "G-LZJ22H1TZQ"
+    };
 
-    
     firebase.initializeApp(firebaseConfig);
-    
     const db = firebase.firestore();
     </script>
 
     <script src="../js/liveResults.js"></script>
 </body>
-</html>   
+</html>

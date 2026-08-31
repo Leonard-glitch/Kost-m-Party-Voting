@@ -29,12 +29,12 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 1.2rem;
-    
+
     background-color: #1a1a1d;
     padding: 2.5rem 2rem;
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 h3 {
@@ -44,7 +44,7 @@ h3 {
     letter-spacing: 0.5px;
     background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
+    -webkit-text-fill-color: transparent;
 }
 
 input{
@@ -84,7 +84,7 @@ button {
 
 button:hover {
     box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
-    transform: translateY(-1px); 
+    transform: translateY(-1px);
 }
 
 button:active {
@@ -94,8 +94,8 @@ button:active {
 
 #admin-login-message {
     font-size: 0.9rem;
-    color: #ff4444; 
+    color: #ff4444;
     font-weight: 500;
-    min-height: 1.2rem; 
+    min-height: 1.2rem;
     text-align: center;
 }
