@@ -1,8 +1,19 @@
 
+localStorage.clear(); // Nur zum Testen, damit man immer
+
 //Neue Version...
 addEventListener('pageshow', function () {
     getKostuemes();
 });
+
+// Zeigt eine Nachricht im passenden Zustand (Erfolg/Fehler/neutral) an.
+function showMessage(text, type) {
+    messages.textContent = text;
+    messages.classList.remove("is-error", "is-success");
+    if (type === "error") messages.classList.add("is-error");
+    if (type === "success") messages.classList.add("is-success");
+    messages.style.display = text ? "block" : "none";
+}
 
 function getKostuemes() {
     const kostuemTable=document.getElementById("kostuemTable");
@@ -41,9 +52,10 @@ function getKostuemes() {
         const buttons = document.querySelectorAll('.voteBtn');
         buttons.forEach(button => {
             button.addEventListener('click', function() {
+                lockForm(); // Sperrt alle Buttons, sobald einer geklickt wird
                 const id = this.dataset.id;
                 console.log(`Voting for costume with ID: ${id}`);
-                handleVote(id, this);
+                handleVote(id);
             });
         });
     }, error => {
@@ -51,7 +63,16 @@ function getKostuemes() {
     });
 }
 
-async function handleVote(documentId, clickedButton) {
+// Sperrt das Formular, z. B. wenn schon abgestimmt wurde.
+function lockForm() {
+    const buttons = document.querySelectorAll('.voteBtn');
+    buttons.forEach(button => {
+        button.disabled = true;
+        button.textContent = "Bereits abgestimmt ✓";
+    });
+}
+
+async function handleVote(documentId) {
     // Doppel-Check: Hat der Nutzer schon abgestimmt?
     if (localStorage.getItem("voted")) {
         lockForm();
@@ -59,12 +80,7 @@ async function handleVote(documentId, clickedButton) {
         return;
     }
 
-console.log("Abstimmung für ID:", documentId);
-console.log("Button-Element:", clickedButton);
-
-    // Button temporär deaktivieren und Lade-Text zeigen
-    clickedButton.disabled = true;
-    clickedButton.textContent = "Lädt...";
+    console.log("Abstimmung für ID:", documentId);
 
     try {
         // Datenbank-Update ausführen (Stimme um 1 erhöhen)

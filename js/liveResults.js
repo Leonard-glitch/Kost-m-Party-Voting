@@ -30,7 +30,7 @@ function startLiveResults() {
     const container = document.getElementById('rankingsContainer');
     const totalDisplay = document.getElementById('total-votes');
 
-    db.collection('kostueme').onSnapshot(snapshot => {
+    db.collection('kostuemListe').onSnapshot(snapshot => {
         let data = [];
         let totalVotes = 0; // Hier starten wir bei 0
 
@@ -44,7 +44,7 @@ function startLiveResults() {
                 ? item.votes
                 : 0;
 
-            data.push({ id: doc.id, votes });
+            data.push({ name: item.name, votes });
 
             // Jede Stimme zur Gesamtsumme addieren
             totalVotes += votes;
@@ -73,7 +73,7 @@ function startLiveResults() {
 
             const label = document.createElement('div');
             label.className = 'bar-label';
-            label.textContent = `#${item.id}`;
+            label.textContent = `${item.name}`;
 
             const wrapper = document.createElement('div');
             wrapper.className = 'bar-wrapper';
