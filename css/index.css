@@ -141,6 +141,43 @@ body {
     font-weight: bold;
 }
 
+#kostuemTable{
+    display: flex;
+    flex-direction: column;
+
+    max-height: 20rem;
+    overflow-y: auto;
+
+    border: 2px solid rgba(255, 255, 255, 0.226);
+    border-radius: 16px;
+    padding: 0.5rem;
+}
+
+.costuemRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.voteBtn{
+    color: #00f2fe;
+    background: none;
+    border: 1px solid #00f2fe;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.voteBtn:hover {
+    background-color: rgba(0, 242, 254, 0.1);
+}
+
 #vote-button {
     font-size: 1.2rem;
     font-weight: 600;
@@ -226,4 +263,65 @@ body {
 
 #admin-link:hover {
     color: var(--colorBright);
+}
+
+
+
+
+
+/* Container, der scrollbar ist */
+#kostuemTable{
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #06b6d4 #18181b; /* Griff-Farbe & Track-Farbe passend zum Theme */
+}
+
+/* WebKit-Browser (Chrome, Edge, Safari) */
+#kostuemTable::-webkit-scrollbar {
+  width: 6.png; /* Schlanke Scrollbar */
+}
+
+#kostuemTable::-webkit-scrollbar-track {
+  background: #18181b; /* Dunkler Hintergrund der Schiene */
+  border-radius: 8px;
+}
+
+#kostuemTable::-webkit-scrollbar-thumb {
+  background: #06b6d4; /* Türkiser Ton passend zu deinen "Vote"-Buttons */
+  border-radius: 8px;
+}
+
+#kostuemTable::-webkit-scrollbar-thumb:hover {
+  background: #0891b2; /* Etwas dunklerer Hover-Effekt */
+}
+
+/* 1. Die Zeile als Flexbox ausrichten */
+.costuemRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px; /* Abstand zwischen Text und Button */
+  width: 100%;
+}
+
+/* 2. Den Namen scrollbar machen & Scrollbar verstecken */
+.kostuemName {
+  flex: 1;                   /* Nimmt den gesamten freien Platz links ein */
+  min-width: 0;             /* EXTREM WICHTIG in Flexbox: erlaubt das Schrumpfen/Scrollen */
+  white-space: nowrap;      /* Verhindert automatischen Zeilenumbruch */
+  overflow-x: auto;         /* Macht den Text scrollbar, wenn er zu lang ist */
+
+  /* Scrollbar verstecken für Firefox & IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Scrollbar verstecken für Chrome, Safari & Edge */
+.kostuemName::-webkit-scrollbar {
+  display: none;
+}
+
+/* 3. Den Button schwenk- & quetschsicher machen */
+.voteBtn {
+  flex-shrink: 0;           /* Verhindert, dass der Button schrumpft, wenn der Text lang ist */
 }

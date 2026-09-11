@@ -14,22 +14,11 @@
 
         <div class="voteDiv">
             <h2>Wer hat das beste Kostüm?</h2>
-            <p id="info-TextOne">Trag die Nummer deines Favoriten ein, und stimme ab.</p>
+            <p id="info-TextOne">Wähle deinen Favoriten aus.</p>
 
-            <label for="kostum-input" class="visually-hidden">Kostüm-Nummer</label>
-            <input
-                type="number"
-                id="kostum-input"
-                inputmode="numeric"
-                min="1"
-                max="200"
-                placeholder="z. B. 42"
-                autocomplete="off"
-            >
-
-            <p id="info-TextTwo">Gültige Nummern: <span id="valid-numbers"></span></p>
-
-            <button id="vote-button" type="button">Abstimmen</button>
+            <div id="kostuemTable">
+                
+            </div>
 
             <p id="vote-message" role="status"></p>
         </div>
@@ -42,23 +31,21 @@
     </main>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-
     const firebaseConfig = {
-    apiKey: "AIzaSyBH_ZoTcpJcYzf_elI3mpSmmAwqbAjnf_o",
-    authDomain: "kostparty-live-preview.firebaseapp.com",
-    projectId: "kostparty-live-preview",
-    storageBucket: "kostparty-live-preview.firebasestorage.app",
-    messagingSenderId: "133490670261",
-    appId: "1:133490670261:web:67f7823cd22871e0a8dcfc",
-    measurementId: "G-LZJ22H1TZQ"
-  };
-
+      apiKey: "AIzaSyBH_ZoTcpJcYzf_elI3mpSmmAwqbAjnf_o",
+      authDomain: "kostparty-live-preview.firebaseapp.com",
+      projectId: "kostparty-live-preview",
+      storageBucket: "kostparty-live-preview.firebasestorage.app",
+      messagingSenderId: "133490670261",
+      appId: "1:133490670261:web:67f7823cd22871e0a8dcfc",
+      measurementId: "G-LZJ22H1TZQ"
+    };
 
     firebase.initializeApp(firebaseConfig);
-
     const db = firebase.firestore();
     </script>
 
