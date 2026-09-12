@@ -1,35 +1,42 @@
+// Nur zum Testen einkommentieren, um die Abstimmung wieder freizugeben
+localStorage.clear(); 
 
-localStorage.clear(); // Nur zum Testen, damit man immer
-
-//Neue Version...
 addEventListener('pageshow', function () {
+    if (localStorage.getItem("voted")) {
+        lockForm();
+        showMessage("Du hast bereits abgestimmt.", "info");
+    }
     getKostuemes();
 });
 
 // Zeigt eine Nachricht im passenden Zustand (Erfolg/Fehler/neutral) an.
 function showMessage(text, type) {
-    messages.textContent = text;
-    messages.classList.remove("is-error", "is-success");
-    if (type === "error") messages.classList.add("is-error");
-    if (type === "success") messages.classList.add("is-success");
-    messages.style.display = text ? "block" : "none";
+    // FIX: Das Element muss erst über die ID aus dem HTML geholt werden
+    const messageElement = document.getElementById("vote-message");
+    
+    messageElement.textContent = text;
+    messageElement.classList.remove("is-error", "is-success");
+    
+    if (type === "error") messageElement.classList.add("is-error");
+    if (type === "success") messageElement.classList.add("is-success");
+    
+    messageElement.style.display = text ? "block" : "none";
 }
 
 function getKostuemes() {
-    const kostuemTable=document.getElementById("kostuemTable");
-    const voteMessage=document.getElementById("vote-message");
-
-    
+    const kostuemTable = document.getElementById("kostuemTable");
+    const voteMessage = document.getElementById("vote-message");
 
     db.collection('kostuemListe').onSnapshot(snapshot => {
-
-        kostuemTable.innerHTML = ''; // Clear previous options
+        kostuemTable.innerHTML = ''; // Liste vor dem Neuzeichnen leeren
+        
+        // FIX: Einmal am Anfang prüfen, ob lokal schon abgestimmt wurde
+        const hasVoted = localStorage.getItem("voted"); 
 
         snapshot.forEach(doc => {
-            const id = doc.id;          // Die automatische Firebase-ID (z. B. "GcMQ5Jj...")
-            const data = doc.data();    // Das ganze Daten-Objekt
-            
-            const name = data.name;    // Text: "Martin Luther King"
+            const id = doc.id;
+            const data = doc.data();
+            const name = data.name;
 
             const row = document.createElement('div');
             row.className = 'costuemRow';
@@ -40,26 +47,37 @@ function getKostuemes() {
 
             const kostuemBtn = document.createElement('button');
             kostuemBtn.className = 'voteBtn';
-            kostuemBtn.textContent = 'Abstimmen';
             kostuemBtn.dataset.id = id;
+
+            // FIX: Wenn bereits abgestimmt wurde, Button direkt beim Erstellen sperren
+            if (hasVoted) {
+                kostuemBtn.disabled = true;
+                kostuemBtn.textContent = 'Bereits abgestimmt ✓';
+            } else {
+                kostuemBtn.textContent = 'Abstimmen';
+            }
 
             row.appendChild(label);
             row.appendChild(kostuemBtn);
             kostuemTable.appendChild(row);
-
         });
 
+        // Event-Listener an die neu erstellten Buttons hängen
         const buttons = document.querySelectorAll('.voteBtn');
         buttons.forEach(button => {
             button.addEventListener('click', function() {
-                lockForm(); // Sperrt alle Buttons, sobald einer geklickt wird
+                // Zusätzlicher Schutz gegen schnelles Doppelklicken
+                if (localStorage.getItem("voted")) return; 
+                
+                lockForm(); 
                 const id = this.dataset.id;
-                console.log(`Voting for costume with ID: ${id}`);
-                handleVote(id);
+                
+                // FIX: Den geklickten Button übergeben, falls wir ihn bei einem Fehler entsperren müssen
+                handleVote(id, this); 
             });
         });
     }, error => {
-        voteMessage.textContent = "Kostüme konnten nicht geladen werden.";
+        showMessage("Kostüme konnten nicht geladen werden.", "error");
     });
 }
 
@@ -72,8 +90,7 @@ function lockForm() {
     });
 }
 
-async function handleVote(documentId) {
-    // Doppel-Check: Hat der Nutzer schon abgestimmt?
+async function handleVote(documentId, clickedButton) {
     if (localStorage.getItem("voted")) {
         lockForm();
         showMessage("Du hast bereits abgestimmt.", "error");
@@ -83,28 +100,30 @@ async function handleVote(documentId) {
     console.log("Abstimmung für ID:", documentId);
 
     try {
-        // Datenbank-Update ausführen (Stimme um 1 erhöhen)
+        // Zuerst lokal speichern, um sofortige Folgeklicks komplett zu unterbinden
+        localStorage.setItem("voted", "true");
+        lockForm(); 
+
         const docRef = db.collection('kostuemListe').doc(documentId);
         
         await docRef.set({
             votes: firebase.firestore.FieldValue.increment(1)
         }, { merge: true }); 
 
-        // Lokal speichern, dass abgestimmt wurde
-        localStorage.setItem("voted", "true");
-        
-        // UI aktualisieren
         showMessage("Danke! Deine Stimme wurde gezählt. 🎉", "success");
-        lockForm(); // Sperrt ab sofort ALLE Buttons in der Liste
-
-        console.log("Erfolgreich gespeichert für ID:", documentId);
 
     } catch (error) {
         console.error("Fehler beim Voten:", error);
+        
+        // Abstimmung ist fehlgeschlagen -> Lokale Sperre aufheben
+        localStorage.removeItem("voted"); 
         showMessage("Da ist leider etwas schiefgelaufen. Bitte versuch es noch einmal.", "error");
         
-        // Im Fehlerfall den geklickten Button wieder freigeben
-        clickedButton.disabled = false;
-        clickedButton.textContent = "Vote";
+        // Alle Buttons wieder freigeben, damit der User es nochmal versuchen kann
+        const buttons = document.querySelectorAll('.voteBtn');
+        buttons.forEach(button => {
+            button.disabled = false;
+            button.textContent = "Abstimmen";
+        });
     }
 }
