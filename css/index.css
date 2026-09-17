@@ -21,6 +21,7 @@ html {
 
     --success-color: #2ecc71;
     --error-color: #ff5c5c;
+    --warning-color: #ffb020;
 }
 
 body {
@@ -29,6 +30,23 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: var(--backgroundBody);
+}
+
+/* Hinweisbalken bei fehlender Internetverbindung */
+#connection-banner {
+    display: none;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background-color: rgba(255, 176, 32, 0.12);
+    color: var(--warning-color);
+    border-bottom: 1px solid rgba(255, 176, 32, 0.3);
+}
+
+#connection-banner.visible {
+    display: block;
 }
 
 #headerOne {
@@ -93,55 +111,7 @@ body {
     border: 0;
 }
 
-#kostum-input {
-    width: 100%;
-    font-size: 1.4rem;
-    padding: 0.9rem 1rem;
-    border: 2px solid transparent;
-    border-radius: 30px;
-    background-color: #26262b;
-    color: var(--colorBright);
-    text-align: center;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-#kostum-input:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
-}
-
-#kostum-input::placeholder {
-    color: #606065;
-}
-
-#kostum-input:disabled {
-    opacity: 0.55;
-}
-
-/* Auf/Ab-Pfeile beim Zahlenfeld ausblenden - wirken auf Desktop unnötig technisch */
-#kostum-input::-webkit-outer-spin-button,
-#kostum-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-#kostum-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-#info-TextTwo {
-    text-align: center;
-    font-size: 0.85rem;
-    line-height: 1.4;
-    color: var(--colorNormal);
-}
-
-#valid-numbers {
-    color: var(--accent-color);
-    font-weight: bold;
-}
-
-#kostuemTable{
+#kostuemTable {
     display: flex;
     flex-direction: column;
 
@@ -151,20 +121,64 @@ body {
     border: 2px solid rgba(255, 255, 255, 0.226);
     border-radius: 16px;
     padding: 0.5rem;
+
+    scrollbar-width: thin;
+    scrollbar-color: #06b6d4 #18181b;
 }
 
-.costuemRow{
+#kostuemTable::-webkit-scrollbar {
+    width: 6px;
+}
+
+#kostuemTable::-webkit-scrollbar-track {
+    background: #18181b;
+    border-radius: 8px;
+}
+
+#kostuemTable::-webkit-scrollbar-thumb {
+    background: #06b6d4;
+    border-radius: 8px;
+}
+
+#kostuemTable::-webkit-scrollbar-thumb:hover {
+    background: #0891b2;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--colorNormal);
+    padding: 1.5rem 0.5rem;
+    font-size: 0.95rem;
+}
+
+.costuemRow {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
 }
 
-.voteBtn{
+.kostuemName {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow-x: auto;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.kostuemName::-webkit-scrollbar {
+    display: none;
+}
+
+.voteBtn {
+    flex-shrink: 0;
     color: #00f2fe;
     background: none;
     border: 1px solid #00f2fe;
@@ -174,28 +188,8 @@ body {
     transition: all 0.2s ease;
 }
 
-.voteBtn:hover {
+.voteBtn:hover:not(:disabled) {
     background-color: rgba(0, 242, 254, 0.1);
-}
-
-#vote-button {
-    font-size: 1.2rem;
-    font-weight: 600;
-    padding: 0.9rem 1.5rem;
-    min-height: 52px;
-    width: 100%;
-    border: none;
-    border-radius: 30px;
-    background: var(--accent-gradient);
-    color: var(--colorBright);
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
-    transition: all 0.2s ease;
-}
-
-#vote-button:hover:not(:disabled) {
-    box-shadow: 0 6px 20px rgba(0, 242, 254, 0.5);
-    transform: translateY(-1px);
 }
 
 .voteBtn:active:not(:disabled) {
@@ -223,7 +217,8 @@ body {
 }
 
 /* Klar unterscheidbare Zustände statt immer der gleichen Farbe -
-   damit auf einen Blick klar ist, ob die Stimme angekommen ist oder nicht. */
+   damit auf einen Blick klar ist, ob die Stimme angekommen ist,
+   noch unterwegs ist, oder etwas schiefgelaufen ist. */
 #vote-message.is-success {
     border-color: var(--success-color);
     color: var(--success-color);
@@ -234,6 +229,12 @@ body {
     border-color: var(--error-color);
     color: var(--error-color);
     background-color: rgba(255, 92, 92, 0.08);
+}
+
+#vote-message.is-warning {
+    border-color: var(--warning-color);
+    color: var(--warning-color);
+    background-color: rgba(255, 176, 32, 0.08);
 }
 
 #info-hint {
@@ -263,65 +264,4 @@ body {
 
 #admin-link:hover {
     color: var(--colorBright);
-}
-
-
-
-
-
-/* Container, der scrollbar ist */
-#kostuemTable{
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #06b6d4 #18181b; /* Griff-Farbe & Track-Farbe passend zum Theme */
-}
-
-/* WebKit-Browser (Chrome, Edge, Safari) */
-#kostuemTable::-webkit-scrollbar {
-  width: 6.png; /* Schlanke Scrollbar */
-}
-
-#kostuemTable::-webkit-scrollbar-track {
-  background: #18181b; /* Dunkler Hintergrund der Schiene */
-  border-radius: 8px;
-}
-
-#kostuemTable::-webkit-scrollbar-thumb {
-  background: #06b6d4; /* Türkiser Ton passend zu deinen "Vote"-Buttons */
-  border-radius: 8px;
-}
-
-#kostuemTable::-webkit-scrollbar-thumb:hover {
-  background: #0891b2; /* Etwas dunklerer Hover-Effekt */
-}
-
-/* 1. Die Zeile als Flexbox ausrichten */
-.costuemRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px; /* Abstand zwischen Text und Button */
-  width: 100%;
-}
-
-/* 2. Den Namen scrollbar machen & Scrollbar verstecken */
-.kostuemName {
-  flex: 1;                   /* Nimmt den gesamten freien Platz links ein */
-  min-width: 0;             /* EXTREM WICHTIG in Flexbox: erlaubt das Schrumpfen/Scrollen */
-  white-space: nowrap;      /* Verhindert automatischen Zeilenumbruch */
-  overflow-x: auto;         /* Macht den Text scrollbar, wenn er zu lang ist */
-
-  /* Scrollbar verstecken für Firefox & IE/Edge */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-/* Scrollbar verstecken für Chrome, Safari & Edge */
-.kostuemName::-webkit-scrollbar {
-  display: none;
-}
-
-/* 3. Den Button schwenk- & quetschsicher machen */
-.voteBtn {
-  flex-shrink: 0;           /* Verhindert, dass der Button schrumpft, wenn der Text lang ist */
 }

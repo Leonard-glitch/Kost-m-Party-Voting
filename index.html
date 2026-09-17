@@ -8,6 +8,8 @@
 </head>
 <body>
 
+    <div id="connection-banner" role="status" aria-live="polite"></div>
+
     <h1 id="headerOne">🎭 Kostüm-Party 2026</h1>
 
     <main id="sec1">
@@ -47,6 +49,16 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+
+    // Offline-Persistenz: Falls eine Stimme wegen fehlender Verbindung nicht
+    // sofort rausgeht, bleibt sie lokal (IndexedDB) gespeichert - auch über
+    // einen Reload oder Tab-Schließen hinweg - und wird automatisch
+    // nachgesendet, sobald wieder eine Verbindung besteht. Kann in
+    // Ausnahmefällen fehlschlagen (z.B. sehr alter Browser); die App
+    // funktioniert dann trotzdem normal weiter, nur ohne diesen Puffer.
+    db.enablePersistence({ synchronizeTabs: true }).catch((err) => {
+        console.warn("Offline-Persistenz nicht aktiv:", err.code);
+    });
     </script>
 
     <script src="./js/index.js"></script>

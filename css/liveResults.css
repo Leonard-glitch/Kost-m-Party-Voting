@@ -16,6 +16,7 @@ html {
     --backgroundAllVotes: rgba(0, 242, 254, 0.1);
 
     --colorNormal: #ffffff;
+    --colorMuted: #8891a8;
     --colorLabel: #00f2fe;
     --colorTitle: #ffffff;
 
@@ -24,6 +25,22 @@ html {
 
     --gradiantStart: #00f2fe;
     --gradiantEnd: #4facfe;
+
+    --warning-color: #ffb020;
+
+    /* Medaillenfarben für die Top 3 - bewusst etwas gedämpfter als reines
+       Gold/Silber/Bronze, damit es zum dunklen Theme passt statt grell zu wirken. */
+    --gold: #f4c544;
+    --gold-light: #ffe9a8;
+    --gold-glow: rgba(244, 197, 68, 0.35);
+
+    --silver: #c7cdd9;
+    --silver-light: #f1f3f6;
+    --silver-glow: rgba(199, 205, 217, 0.3);
+
+    --bronze: #d98850;
+    --bronze-light: #f0b483;
+    --bronze-glow: rgba(217, 136, 80, 0.32);
 }
 
 body {
@@ -114,11 +131,32 @@ body {
     visibility: visible;
 }
 
+/* Hinweisbalken, wenn die Daten gerade aus dem Cache statt live kommen */
+#connection-banner {
+    display: none;
+    width: 98%;
+    max-width: 600px;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: rgba(255, 176, 32, 0.12);
+    color: var(--warning-color);
+    border: 1px solid rgba(255, 176, 32, 0.3);
+}
+
+#connection-banner.visible {
+    display: block;
+}
+
 #rankingsContainer {
     display: flex;
     flex-direction: column;
     width: 98%;
-    gap: 12px;
+    max-width: 600px;
+    gap: 10px;
     padding: 20px;
     margin: 20px 0;
 
@@ -133,17 +171,69 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
+.empty-state {
+    margin: auto;
+    color: var(--colorMuted);
+    text-align: center;
+    font-size: 1rem;
+}
+
 .bar-row {
     display: flex;
     align-items: center;
     width: 100%;
+    gap: 12px;
+    padding: 4px 6px;
+    border-radius: 10px;
+}
+
+/* Rang-Abzeichen: Zahl für Platz 4+, Medaille für die Top 3 */
+.rank-badge {
+    flex-shrink: 0;
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--colorLabel);
+    border: 2px solid var(--borderContainer);
+    background: transparent;
+}
+
+.rank-badge.tier-gold,
+.rank-badge.tier-silver,
+.rank-badge.tier-bronze {
+    font-size: 1.25rem;
+    border: none;
+}
+
+.rank-badge.tier-gold {
+    background: radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold) 70%);
+    box-shadow: 0 0 14px var(--gold-glow);
+}
+
+.rank-badge.tier-silver {
+    background: radial-gradient(circle at 35% 30%, var(--silver-light), var(--silver) 70%);
+    box-shadow: 0 0 14px var(--silver-glow);
+}
+
+.rank-badge.tier-bronze {
+    background: radial-gradient(circle at 35% 30%, var(--bronze-light), var(--bronze) 70%);
+    box-shadow: 0 0 14px var(--bronze-glow);
 }
 
 .bar-label {
-    width:10%;
+    flex: 0 1 30%;
+    min-width: 0;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--colorLabel);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .bar-wrapper {
@@ -154,6 +244,19 @@ body {
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: border-color 0.3s ease;
+}
+
+.bar-row.tier-gold .bar-wrapper {
+    border-color: var(--gold-glow);
+}
+
+.bar-row.tier-silver .bar-wrapper {
+    border-color: var(--silver-glow);
+}
+
+.bar-row.tier-bronze .bar-wrapper {
+    border-color: var(--bronze-glow);
 }
 
 .bar-fill {
@@ -163,6 +266,18 @@ body {
     min-width: 2px;
 }
 
+.bar-fill.tier-gold {
+    background: linear-gradient(90deg, var(--gold-light) 0%, var(--gold) 100%);
+}
+
+.bar-fill.tier-silver {
+    background: linear-gradient(90deg, var(--silver-light) 0%, var(--silver) 100%);
+}
+
+.bar-fill.tier-bronze {
+    background: linear-gradient(90deg, var(--bronze-light) 0%, var(--bronze) 100%);
+}
+
 .bar-count {
     padding-left: 15px;
     padding-right: 10px;
@@ -170,6 +285,13 @@ body {
     font-weight: 600;
     white-space: nowrap;
     color: var(--colorNormal);
+}
+
+.bar-row.tier-gold .bar-count,
+.bar-row.tier-silver .bar-count,
+.bar-row.tier-bronze .bar-count {
+    color: #1a1a1d;
+    font-weight: 700;
 }
 
 #all-Votes {
@@ -183,7 +305,6 @@ body {
     box-shadow: 0 0 15px var(--boxShadowing);
     background: var(--backgroundAllVotes);
 }
-
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
@@ -201,4 +322,22 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--gradiantEnd);
+}
+
+@media (max-width: 400px) {
+    .rank-badge {
+        width: 1.9rem;
+        height: 1.9rem;
+        font-size: 0.8rem;
+    }
+
+    .rank-badge.tier-gold,
+    .rank-badge.tier-silver,
+    .rank-badge.tier-bronze {
+        font-size: 1.05rem;
+    }
+
+    .bar-label {
+        font-size: 0.95rem;
+    }
 }
